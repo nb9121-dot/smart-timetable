@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Timetable Scheduler - Login</title>
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #374151;
+        }
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #1f2937;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        p {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            margin-bottom: 20px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .demo-credentials {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 0.875rem;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .demo-credentials h4 {
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            color: #6b7280;
+        }
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-left: 4px solid #ef4444;
+            display: none;
+            z-index: 1000;
+        }
+        .notification.success {
+            border-left-color: #10b981;
+        }
+        .notification.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {transform: translateX(100%); opacity: 0;}
+            to {transform: translateX(0); opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">🎓</div>
+        <h1>Smart Timetable Scheduler</h1>
+        <p>Engineers of Time - SIH 2025</p>
+        <form id="loginForm">
+            <label for="role">Select Role</label>
+            <select id="role" name="role" required>
+                <option value="">Choose your role</option>
+                <option value="admin">👨‍💼 Administrator</option>
+                <option value="faculty">👨‍🏫 Faculty Member</option>
+                <option value="student">👨‍🎓 Student</option>
+            </select>
+            <label for="userId">User ID</label>
+            <input type="text" id="userId" name="userId" placeholder="Enter your User ID" required />
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required />
+            <button type="submit">🚀 Login to Dashboard</button>
+        </form>
+        <div class="demo-credentials">
+            <h4>🔑 Login Credentials</h4>
+            <p style="margin-bottom: 10px;">Credentials are dynamically generated and sent to your email. Please check your email for login details.</p>
+            <div id="credential-list"></div>
+        </div>
+    </div>
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Define credentials
+        var validCredentials = {
+            admin: { userID: 'ADM001', password: 'admin123', name: 'Dr. Admin' },
+            faculty: { userID: 'FAC001', password: 'faculty123', name: 'Prof. Faculty' },
+            student: { userID: 'STU001', password: 'student123', name: 'Student User' }
+        };
+        
+        // Show notification function
+        function showNotification(message, type) {
+            var notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type + ' show';
+            setTimeout(function() { 
+                notification.classList.remove('show'); 
+            }, 4000);
+        }
+        
+        // Handle role change
+        function handleRoleChange() {
+            var role = this.value;
+            if (validCredentials[role]) {
+                document.getElementById('userId').value = validCredentials[role].userID;
+                document.getElementById('password').value = validCredentials[role].password;
+            } else {
+                document.getElementById('userId').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+        
+        // Handle login form submission
+        function handleLogin(e) {
+            e.preventDefault();
+            var role = document.getElementById('role').value;
+            var userId = document.getElementById('userId').value.trim();
+            var password = document.getElementById('password').value.trim();
+            
+            if (!role || !userId || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            var loginBtn = this.querySelector('button[type="submit"]');
+            loginBtn.textContent = '🔄 Logging in...';
+            loginBtn.disabled = true;
+
+            setTimeout(function() {
+                var creds = validCredentials[role];
+                if (creds && creds.userID === userId && creds.password === password) {
+                    showNotification('✅ Login successful! Redirecting...', 'success');
+                    setTimeout(function() {
+                        if (role === 'admin') window.location.href = 'admin-dashboard.html';
+                        else if (role === 'faculty') window.location.href = 'teacher-dashboard.html';
+                        else if (role === 'student') window.location.href = 'student-dashboard.html';
+                        else window.location.href = 'admin-dashboard.html';
+                    }, 1000);
+                } else {
+                    showNotification('❌ Invalid credentials. Please check your User ID and password.', 'error');
+                    loginBtn.textContent = '🚀 Login to Dashboard';
+                    loginBtn.disabled = false;
+                }
+            }, 1500);
+        }
+        
+        // Display credentials in the list
+        function initCredentials() {
+            var credList = document.getElementById('credential-list');
+            if (credList) {
+                for (var role in validCredentials) {
+                    if (validCredentials.hasOwnProperty(role)) {
+                        var cred = validCredentials[role];
+                        var div = document.createElement('div');
+                        div.className = 'credential-item';
+                        div.innerHTML = '<span>' + role.charAt(0).toUpperCase() + role.slice(1) + 
+                                       ':</span><span>' + cred.userID + ' / ' + cred.password + '</span>';
+                        credList.appendChild(div);
+                    }
+                }
+            }
+        }
+        
+        // Initialize when page loads
+        window.onload = function() {
+            initCredentials();
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('role').addEventListener('change', handleRoleChange);
+        };
+    </script>
+</body>
+</html>

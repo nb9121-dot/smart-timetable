@@ -1,0 +1,21 @@
+RoomID,RoomName,Type,Capacity
+CR01,Classroom 1,Classroom,60
+CR02,Classroom 2,Classroom,55
+CR03,Classroom 3,Classroom,50
+CR04,Classroom 4,Classroom,65
+CR05,Classroom 5,Classroom,70
+CR06,Smart Classroom A,Classroom,80
+CR07,Smart Classroom B,Classroom,75
+CR08,Lecture Hall 1,Classroom,120
+CR09,Lecture Hall 2,Classroom,100
+CR10,Seminar Hall,Classroom,90
+LAB01,AI Lab 1,Lab,40
+LAB02,AI Lab 2,Lab,35
+LAB03,CSE Lab 1,Lab,45
+LAB04,CSE Lab 2,Lab,40
+LAB05,Database Lab,Lab,35
+LAB06,Big Data Lab,Lab,30
+LAB07,Cloud Computing Lab,Lab,32
+LAB08,Research Lab,Lab,25
+LAB09,Physics Lab,Lab,30
+LAB10,Chemistry Lab,Lab,28

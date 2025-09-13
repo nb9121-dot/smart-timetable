@@ -1,0 +1,25 @@
+CourseID,CourseName,CourseCode,DeptID,Semester,Credits,HoursPerWeek,RoomType,PreRequisites,IsElective
+C001,Data Structures and Algorithms,CSE201,CSE,3,4,4,Lab,C005,No
+C002,Machine Learning Fundamentals,AI301,AI,5,4,4,Lab,C001,No
+C003,Deep Learning,AI401,AI,7,3,3,Lab,C002,Yes
+C004,Computer Vision,AI402,AI,7,3,3,Lab,C002,Yes
+C005,Programming Fundamentals,CSE101,CSE,1,4,4,Lab,None,No
+C006,Database Management Systems,CSE301,CSE,5,4,4,Lab,C001,No
+C007,Computer Networks,CSE302,CSE,5,3,3,Classroom,C005,No
+C008,Operating Systems,CSE303,CSE,5,3,3,Classroom,C001,No
+C009,Big Data Analytics,BDA301,BDA,5,4,4,Lab,C001,No
+C010,Data Mining,BDA401,BDA,7,3,3,Lab,C009,Yes
+C011,Cloud Computing Fundamentals,CC301,CC,5,4,4,Lab,C007,No
+C012,AWS Cloud Services,CC401,CC,7,3,3,Lab,C011,Yes
+C013,Physics-I,PHY101,PHY,1,3,3,Classroom,None,No
+C014,Physics-II,PHY102,PHY,2,3,3,Classroom,C013,No
+C015,Calculus-I,MAT101,MAT,1,4,4,Classroom,None,No
+C016,Calculus-II,MAT102,MAT,2,4,4,Classroom,C015,No
+C017,Linear Algebra,MAT201,MAT,3,3,3,Classroom,C016,No
+C018,Chemistry-I,CHE101,CHE,1,3,3,Classroom,None,No
+C019,Chemistry-II,CHE102,CHE,2,3,3,Classroom,C018,No
+C020,Natural Language Processing,AI403,AI,7,3,3,Lab,C002,Yes
+C021,Robotics,AI404,AI,8,3,3,Lab,C004,Yes
+C022,Software Engineering,CSE401,CSE,7,3,3,Classroom,C001,No
+C023,Distributed Systems,CC402,CC,8,3,3,Classroom,C011,No
+C024,Quantum Physics,PHY301,PHY,5,3,3,Classroom,C014,Yes

@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Smart Timetable Scheduler - Admin Dashboard</title>
+<link rel="stylesheet" href="final-styles.css" />
+<script src="final-working-system.js" defer></script>
+<script src="admin-navigation.js" defer></script>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">🎓</div>
+            <h3>Smart Scheduler</h3>
+            <p>Admin Dashboard</p>
+            <div class="ai-status">
+                <span class="status-dot online"></span>
+                <small>AI Engine Online</small>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="javascript:void(0);" class="nav-item active" data-view-id="overview-view"><span class="nav-icon">📊</span><span>Overview</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="data-upload-view"><span class="nav-icon">📁</span><span>Data Upload</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="timetable-gen-view"><span class="nav-icon">🤖</span><span>AI Generator</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="whatif-sim-view"><span class="nav-icon">🔮</span><span>What-If Simulator</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="analytics-view"><span class="nav-icon">📈</span><span>Analytics</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="notifications-view"><span class="nav-icon">📲</span><span>Notifications</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="absence-mgmt-view"><span class="nav-icon">👥</span><span>Absence Management</span></a>
+            <a href="javascript:void(0);" class="nav-item" data-view-id="settings-view"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout"><span>🚪</span><span>Logout</span></button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <h1 id="currentPageTitle">System Overview</h1>
+                <p id="currentPageDesc">Manage your smart timetable scheduling system</p>
+            </div>
+            <div class="top-actions">
+                <div class="notification-center" id="notificationCenter">
+                    <button class="notification-bell" id="notificationBell">
+                        🔔
+                        <span class="notification-count" id="notificationCount">0</span>
+                    </button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <button class="mark-all-read">Mark all as read</button>
+                        </div>
+                        <div class="notification-list" id="notificationList">
+                            <div class="no-notifications">No notifications yet</div>
+                        </div>
+                    </div>
+                </div>
+                <button id="voiceAssistantBtn" class="voice-assistant-btn">🎤</button>
+                <div class="user-profile">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%234F46E5'/><text x='16' y='20' text-anchor='middle' fill='white' font-family='Arial' font-size='12'>A</text></svg>" alt="Admin" />
+                    <span id="currentUserName">Dr. Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- OVERVIEW VIEW -->
+        <div id="overview-view" class="content-view active">
+            <div class="overview-grid">
+                <!-- Stats Cards -->
+                <div class="stats-row">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">👨‍🏫</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalTeachers">0</div>
+                            <div class="stat-label">Faculty Members</div>
+                            <div class="stat-change">+0 this month</div>
+                        </div>
+                        <button class="stat-action" onclick="document.querySelector('[href=&quot;#data-upload&quot;]').click()">Upload Data</button>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">👨‍🎓</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalStudents">0</div>
+                            <div class="stat-label">Students Enrolled</div>
+                            <div class="stat-change">+0 this semester</div>
+                        </div>
+                        <button class="stat-action" onclick="document.querySelector('[href=&quot;#data-upload&quot;]').click()">Upload Data</button>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">🏫</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalRooms">0</div>
+                            <div class="stat-label">Rooms Available</div>
+                            <div class="stat-change">Lab + Classroom</div>
+                        </div>
+                        <button class="stat-action" onclick="document.querySelector('[href=&quot;#data-upload&quot;]').click()">Upload Data</button>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalConflicts">0</div>
+                            <div class="stat-label">Schedule Conflicts</div>
+                            <div class="stat-change text-success">AI Resolved</div>
+                        </div>
+                        <button class="stat-action" onclick="runConflictScan()">Scan Now</button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-panel">
+                    <h3>🚀 Quick Actions</h3>
+                    <div class="action-grid">
+                        <button class="action-btn primary" onclick="document.querySelector('[href=&quot;#data-upload&quot;]').click()">
+                            <div class="action-icon">📊</div>
+                            <div class="action-text">
+                                <h4>Upload Excel Data</h4>
+                                <p>Import Teachers, Courses, Rooms, Classes</p>
+                            </div>
+                        </button>
+                        <button class="action-btn success" onclick="document.querySelector('[href=&quot;#timetable-gen&quot;]').click()" id="quickGenerateBtn">
+                            <div class="action-icon">🤖</div>
+                            <div class="action-text">
+                                <h4>Generate Timetable</h4>
+                                <p>AI-powered clash-free scheduling</p>
+                            </div>
+                        </button>
+                        <button class="action-btn info" onclick="document.querySelector('[href=&quot;#whatif-sim&quot;]').click()">
+                            <div class="action-icon">🔮</div>
+                            <div class="action-text">
+                                <h4>What-If Analysis</h4>
+                                <p>Test scenarios before implementing</p>
+                            </div>
+                        </button>
+                        <button class="action-btn warning" onclick="document.querySelector('[href=&quot;#analytics&quot;]').click()">
+                            <div class="action-icon">📈</div>
+                            <div class="action-text">
+                                <h4>View Analytics</h4>
+                                <p>Insights and performance metrics</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Status Panel -->
+                <div class="system-status-panel">
+                    <h3>🔍 System Status</h3>
+                    <div class="status-grid">
+                        <div class="status-item" id="dataStatus">
+                            <div class="status-icon loading">📊</div>
+                            <div class="status-content">
+                                <h4>Data Upload</h4>
+                                <p>Upload required Excel files</p>
+                                <div class="status-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/7 files uploaded</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-item" id="aiStatus">
+                            <div class="status-icon ready">🤖</div>
+                            <div class="status-content">
+                                <h4>AI Engine</h4>
+                                <p>Constraint solver ready</p>
+                                <div class="status-badge ready">Ready</div>
+                            </div>
+                        </div>
+                        <div class="status-item" id="timetableStatus">
+                            <div class="status-icon pending">📅</div>
+                            <div class="status-content">
+                                <h4>Timetable</h4>
+                                <p>No timetable generated yet</p>
+                                <div class="status-badge pending">Pending</div>
+                            </div>
+                        </div>
+                        <div class="status-item" id="notificationStatus">
+                            <div class="status-icon ready">📲</div>
+                            <div class="status-content">
+                                <h4>Notifications</h4>
+                                <p>WhatsApp & Email ready</p>
+                                <div class="status-badge ready">Connected</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Feed -->
+                <div class="activity-feed">
+                    <h3>📝 Recent Activity</h3>
+                    <div class="activity-list" id="activityFeed">
+                        <div class="activity-item">
+                            <div class="activity-icon">🔄</div>
+                            <div class="activity-content">
+                                <p><strong>System Initialized</strong></p>
+                                <small>Smart Timetable Scheduler ready for use</small>
+                                <span class="activity-time">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DATA UPLOAD VIEW -->
+        <div id="data-upload-view" class="content-view">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <h2>📁 Data Upload Center</h2>
+                    <p>Upload your Excel files for AI processing and timetable generation</p>
+                </div>
+
+                <div class="upload-grid">
+                    <div class="upload-card" id="teachersCard">
+                        <div class="upload-icon">👨‍🏫</div>
+                        <h3>Teachers.xlsx</h3>
+                        <p>Faculty information, subjects, and workload constraints</p>
+                        <div class="upload-zone" id="teachersUploadZone">
+                            <p>📤 Drag & drop Teachers.xlsx here or click to browse</p>
+                            <input type="file" id="teachersFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="teachersStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('teachers')">📥 Download Template</button>
+                    </div>
+
+                    <div class="upload-card" id="coursesCard">
+                        <div class="upload-icon">📚</div>
+                        <h3>Courses.xlsx</h3>
+                        <p>Course details, departments, and room requirements</p>
+                        <div class="upload-zone" id="coursesUploadZone">
+                            <p>📤 Drag & drop Courses.xlsx here or click to browse</p>
+                            <input type="file" id="coursesFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="coursesStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('courses')">📥 Download Template</button>
+                    </div>
+
+                    <div class="upload-card" id="roomsCard">
+                        <div class="upload-icon">🏫</div>
+                        <h3>Rooms.xlsx</h3>
+                        <p>Room information, types, and capacity details</p>
+                        <div class="upload-zone" id="roomsUploadZone">
+                            <p>📤 Drag & drop Rooms.xlsx here or click to browse</p>
+                            <input type="file" id="roomsFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="roomsStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('rooms')">📥 Download Template</button>
+                    </div>
+
+                    <div class="upload-card" id="classesCard">
+                        <div class="upload-icon">🎓</div>
+                        <h3>Classes.xlsx</h3>
+                        <p>Class information, strength, and assigned courses</p>
+                        <div class="upload-zone" id="classesUploadZone">
+                            <p>📤 Drag & drop Classes.xlsx here or click to browse</p>
+                            <input type="file" id="classesFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="classesStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('classes')">📥 Download Template</button>
+                    </div>
+
+                    <div class="upload-card" id="studentsCard">
+                        <div class="upload-icon">👥</div>
+                        <h3>Students.xlsx</h3>
+                        <p>Student database with class assignments</p>
+                        <div class="upload-zone" id="studentsUploadZone">
+                            <p>📤 Drag & drop Students.xlsx here or click to browse</p>
+                            <input type="file" id="studentsFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="studentsStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('students')">📥 Download Template</button>
+                    </div>
+
+                    <div class="upload-card" id="specialSlotsCard">
+                        <div class="upload-icon">⏰</div>
+                        <h3>SpecialSlots.xlsx</h3>
+                        <p>Pre-fixed lab sessions and special schedules</p>
+                        <div class="upload-zone" id="specialSlotsUploadZone">
+                            <p>📤 Drag & drop SpecialSlots.xlsx here or click to browse</p>
+                            <input type="file" id="specialSlotsFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="specialSlotsStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('specialSlots')">📥 Download Template</button>
+                    </div>
+
+                    <div class="upload-card" id="holidaysCard">
+                        <div class="upload-icon">📅</div>
+                        <h3>Holidays.xlsx</h3>
+                        <p>Academic calendar and holiday information</p>
+                        <div class="upload-zone" id="holidaysUploadZone">
+                            <p>📤 Drag & drop Holidays.xlsx here or click to browse</p>
+                            <input type="file" id="holidaysFileInput" accept=".xlsx,.xls,.csv" style="display: none;">
+                        </div>
+                        <div class="upload-status" id="holidaysStatus">Ready for upload</div>
+                        <button class="download-template" onclick="downloadTemplate('holidays')">📥 Download Template</button>
+                    </div>
+                </div>
+
+                <!-- AI Processing Panel -->
+                <div class="processing-panel" id="processingPanel" style="display: none;">
+                    <h3>🤖 AI Processing in Progress...</h3>
+                    <div class="processing-steps">
+                        <div class="processing-step" id="readingStep">
+                            <div class="step-icon">📖</div>
+                            <div class="step-content">
+                                <h4>Reading Excel Data</h4>
+                                <div class="step-status" id="readingStatus">Waiting...</div>
+                            </div>
+                        </div>
+                        <div class="processing-step" id="validationStep">
+                            <div class="step-icon">🔍</div>
+                            <div class="step-content">
+                                <h4>Data Validation</h4>
+                                <div class="step-status" id="validationStatus">Waiting...</div>
+                            </div>
+                        </div>
+                        <div class="processing-step" id="constraintStep">
+                            <div class="step-icon">🎯</div>
+                            <div class="step-content">
+                                <h4>Constraint Analysis</h4>
+                                <div class="step-status" id="constraintStatus">Waiting...</div>
+                            </div>
+                        </div>
+                        <div class="processing-step" id="optimizationStep">
+                            <div class="step-icon">⚡</div>
+                            <div class="step-content">
+                                <h4>Optimization</h4>
+                                <div class="step-status" id="optimizationStatus">Waiting...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="processing-log">
+                        <h4>Processing Log:</h4>
+                        <pre id="processingLog"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIMETABLE GENERATION VIEW -->
+        <div id="timetable-gen-view" class="content-view">
+            <div class="generation-container">
+                <div class="generation-header">
+                    <h2>🤖 AI Timetable Generator</h2>
+                    <p>Generate conflict-free schedules using advanced genetic algorithms</p>
+                </div>
+
+                <div class="generation-controls">
+                    <button class="btn-primary btn-large" id="generateBtn">
+                        🤖 Generate AI Timetable
+                    </button>
+                    <div class="generation-options">
+                        <label>
+                            <input type="checkbox" checked> Apply hard constraints
+                        </label>
+                        <label>
+                            <input type="checkbox" checked> Optimize soft constraints
+                        </label>
+                        <label>
+                            <input type="checkbox" checked> Balance teacher workload
+                        </label>
+                        <label>
+                            <input type="checkbox" checked> Maximize room utilization
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Generation Progress -->
+                <div class="generation-progress" id="generationProgress" style="display: none;">
+                    <h3>🧬 Genetic Algorithm in Progress...</h3>
+                    <div class="generation-stages">
+                        <div class="generation-stage" id="initializationStage">
+                            <h4>Population Initialization</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="initializationProgress"></div>
+                            </div>
+                            <span id="initializationPercent">0%</span>
+                        </div>
+                        <div class="generation-stage" id="constraintStage">
+                            <h4>Constraint Application</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="constraintProgress"></div>
+                            </div>
+                            <span id="constraintPercent">0%</span>
+                        </div>
+                        <div class="generation-stage" id="evolutionStage">
+                            <h4>Evolution Process</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="evolutionProgress"></div>
+                            </div>
+                            <span id="evolutionPercent">0%</span>
+                        </div>
+                        <div class="generation-stage" id="optimizationStage">
+                            <h4>Final Optimization</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="optimizationProgress"></div>
+                            </div>
+                            <span id="optimizationPercent">0%</span>
+                        </div>
+                    </div>
+                    <div class="generation-log">
+                        <h4>Generation Log:</h4>
+                        <div id="generationLog"></div>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel" id="resultsPanel" style="display: none;">
+                    <h3>🎉 Timetable Generated Successfully!</h3>
+                    <div class="results-metrics">
+                        <div class="metric-card">
+                            <div class="metric-icon">⚡</div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="efficiencyScore">95%</div>
+                                <div class="metric-label">Efficiency</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🎯</div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="conflictsResolved">0</div>
+                                <div class="metric-label">Conflicts</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🏫</div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="roomUtilization">87%</div>
+                                <div class="metric-label">Room Usage</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">👨‍🏫</div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="teacherBalance">92%</div>
+                                <div class="metric-label">Teacher Balance</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timetable-views">
+                        <div class="view-tabs">
+                            <button class="tab-btn active" onclick="displayTimetable('weekly')">📅 Weekly View</button>
+                            <button class="tab-btn" onclick="displayTimetable('daily')">📆 Daily View</button>
+                            <button class="tab-btn" onclick="displayTimetable('faculty')">👨‍🏫 Faculty View</button>
+                            <button class="tab-btn" onclick="displayTimetable('room')">🏫 Room View</button>
+                        </div>
+                        <div class="timetable-display" id="timetableDisplay">
+                            <!-- Timetable will be displayed here -->
+                        </div>
+                    </div>
+
+                    <div class="export-options">
+                        <button class="btn-success" onclick="exportTimetable('pdf')">📄 Export PDF</button>
+                        <button class="btn-info" onclick="exportTimetable('excel')">📊 Export Excel</button>
+                        <button class="btn-warning" onclick="shareSchedule()">📤 Share Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT-IF SIMULATION VIEW -->
+        <div id="whatif-sim-view" class="content-view">
+            <div class="simulation-container">
+                <div class="simulation-header">
+                    <h2>🔮 What-If Simulator</h2>
+                    <p>Test different scenarios and see their impact before implementation</p>
+                </div>
+
+                <div class="scenario-builder">
+                    <h3>Build Your Scenario</h3>
+                    <div class="scenario-options">
+                        <div class="scenario-card" onclick="selectScenario('addFaculty')">
+                            <div class="scenario-icon">👨‍🏫➕</div>
+                            <h4>Add Faculty Member</h4>
+                            <p>See impact of hiring new faculty</p>
+                        </div>
+                        <div class="scenario-card" onclick="selectScenario('addCourse')">
+                            <div class="scenario-icon">📚➕</div>
+                            <h4>Add New Course</h4>
+                            <p>Test adding courses to curriculum</p>
+                        </div>
+                        <div class="scenario-card" onclick="selectScenario('changeCapacity')">
+                            <div class="scenario-icon">🏫📈</div>
+                            <h4>Change Room Capacity</h4>
+                            <p>Impact of room modifications</p>
+                        </div>
+                        <div class="scenario-card" onclick="selectScenario('addTimeSlot')">
+                            <div class="scenario-icon">⏰➕</div>
+                            <h4>Add Time Slot</h4>
+                            <p>Extend working hours impact</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-details" id="scenarioDetails" style="display: none;">
+                    <h3>Scenario Configuration</h3>
+                    <div id="scenarioForm">
+                        <!-- Dynamic form will be loaded here -->
+                    </div>
+                    <button class="btn-primary" onclick="runSimulation()">🔮 Run Simulation</button>
+                </div>
+
+                <div class="simulation-results" id="simulationResults" style="display: none;">
+                    <h3>📊 Simulation Results</h3>
+                    <div class="comparison-view">
+                        <div class="comparison-side">
+                            <h4>Current State</h4>
+                            <div id="currentMetrics"></div>
+                        </div>
+                        <div class="comparison-arrow">→</div>
+                        <div class="comparison-side">
+                            <h4>After Change</h4>
+                            <div id="projectedMetrics"></div>
+                        </div>
+                    </div>
+                    <div class="impact-analysis">
+                        <h4>📈 Impact Analysis</h4>
+                        <div id="impactDetails"></div>
+                    </div>
+                    <div class="recommendation">
+                        <h4>💡 AI Recommendation</h4>
+                        <div id="aiRecommendation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANALYTICS VIEW -->
+        <div id="analytics-view" class="content-view">
+            <div class="analytics-container">
+                <div class="analytics-header">
+                    <h2>📈 Analytics Dashboard</h2>
+                    <p>Comprehensive insights and performance metrics</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="chart-panel">
+                        <h3>📊 System Performance</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="chart-panel">
+                        <h3>🏫 Room Utilization</h3>
+                        <canvas id="utilizationChart"></canvas>
+                    </div>
+                    <div class="chart-panel">
+                        <h3>👨‍🏫 Faculty Workload</h3>
+                        <canvas id="workloadChart"></canvas>
+                    </div>
+                    <div class="insights-panel">
+                        <h3>🔍 AI Insights</h3>
+                        <div id="aiInsights">
+                            <div class="insight-item">
+                                <div class="insight-icon">📈</div>
+                                <div class="insight-text">
+                                    <strong>High Demand Courses:</strong> Machine Learning shows 35% increase in enrollment
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon">⏰</div>
+                                <div class="insight-text">
+                                    <strong>Peak Hours:</strong> 10-12 AM slots are most utilized across all departments
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon">🏫</div>
+                                <div class="insight-text">
+                                    <strong>Room Optimization:</strong> Lab utilization can be improved by 15% with better scheduling
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS VIEW -->
+        <div id="notifications-view" class="content-view">
+            <div class="notifications-container">
+                <div class="notifications-header">
+                    <h2>📲 Notification Center</h2>
+                    <p>Manage multi-channel notifications and communications</p>
+                </div>
+
+                <div class="notification-channels">
+                    <div class="channel-card">
+                        <div class="channel-icon">📱</div>
+                        <h3>WhatsApp Business</h3>
+                        <div class="channel-status connected">Connected</div>
+                        <p>Send instant updates to faculty and students</p>
+                        <button class="btn-success">Configure</button>
+                    </div>
+                    <div class="channel-card">
+                        <div class="channel-icon">📧</div>
+                        <h3>Email Service</h3>
+                        <div class="channel-status connected">Connected</div>
+                        <p>Detailed notifications and reports via email</p>
+                        <button class="btn-success">Configure</button>
+                    </div>
+                    <div class="channel-card">
+                        <div class="channel-icon">✈️</div>
+                        <h3>Telegram Bot</h3>
+                        <div class="channel-status connected">Connected</div>
+                        <p>Broadcast messages to telegram channels</p>
+                        <button class="btn-success">Configure</button>
+                    </div>
+                </div>
+
+                <div class="notification-history">
+                    <h3>📋 Recent Notifications</h3>
+                    <div class="notification-list-full" id="fullNotificationList">
+                        <!-- Full notification history will be displayed here -->
+                    </div>
+                </div>
+
+                <div class="send-notification">
+                    <h3>📤 Send New Notification</h3>
+                    <form id="notificationForm">
+                        <div class="form-group">
+                            <label>Recipients</label>
+                            <select id="notificationRecipients" multiple>
+                                <option value="all-faculty">All Faculty</option>
+                                <option value="all-students">All Students</option>
+                                <option value="ai-dept">AI Department</option>
+                                <option value="cse-dept">CSE Department</option>
+                                <option value="bda-dept">BDA Department</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Channels</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" value="web" checked> Web Dashboard</label>
+                                <label><input type="checkbox" value="whatsapp"> WhatsApp</label>
+                                <label><input type="checkbox" value="email"> Email</label>
+                                <label><input type="checkbox" value="telegram"> Telegram</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="notificationMessage" placeholder="Enter your notification message..."></textarea>
+                        </div>
+                        <button type="button" class="btn-primary" onclick="sendBulkNotification()">📤 Send Notification</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABSENCE MANAGEMENT VIEW -->
+        <div id="absence-mgmt-view" class="content-view">
+            <div class="absence-container">
+                <div class="absence-header">
+                    <h2>👥 Faculty Absence Management</h2>
+                    <p>Handle faculty absences and find suitable substitutes using AI</p>
+                </div>
+
+                <div class="absence-requests">
+                    <h3>📋 Recent Absence Requests</h3>
+                    <div class="absence-list">
+                        <div class="absence-item">
+                            <div class="faculty-info">
+                                <h4>Prof. Rajesh Mehta</h4>
+                                <p>Machine Learning - Monday 10:00 AM</p>
+                            </div>
+                            <div class="absence-status pending">Pending</div>
+                            <div class="absence-actions">
+                                <button class="btn-success" onclick="findSubstitute('T001', 'Machine Learning')">🔍 Find Substitute</button>
+                                <button class="btn-danger">❌ Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="substitute-finder">
+                    <h3>🔍 AI Substitute Finder</h3>
+                    <div class="finder-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" id="substituteSubject" placeholder="Enter subject name">
+                            </div>
+                            <div class="form-group">
+                                <label>Time Slot</label>
+                                <select id="substituteTimeSlot">
+                                    <option value="">Select time slot</option>
+                                    <option value="09:00-10:00">09:00-10:00</option>
+                                    <option value="10:00-11:00">10:00-11:00</option>
+                                    <option value="11:00-12:00">11:00-12:00</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Day</label>
+                                <select id="substituteDay">
+                                    <option value="">Select day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="searchSubstitutes()">🤖 Find AI Suggestions</button>
+                    </div>
+                    <div class="substitute-results" id="substituteResults" style="display: none;">
+                        <!-- Substitute suggestions will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS VIEW -->
+        <div id="settings-view" class="content-view">
+            <div class="settings-container">
+                <div class="settings-header">
+                    <h2>⚙️ System Settings</h2>
+                    <p>Configure system parameters and preferences</p>
+                </div>
+
+                <div class="settings-sections">
+                    <div class="settings-section">
+                        <h3>🏫 Institution Settings</h3>
+                        <div class="form-group">
+                            <label>Institution Name</label>
+                            <input type="text" value="Smart University" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Academic Year</label>
+                            <select class="form-control">
+                                <option>2025-2026</option>
+                                <option>2024-2025</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Working Days</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" checked> Monday</label>
+                                <label><input type="checkbox" checked> Tuesday</label>
+                                <label><input type="checkbox" checked> Wednesday</label>
+                                <label><input type="checkbox" checked> Thursday</label>
+                                <label><input type="checkbox" checked> Friday</label>
+                                <label><input type="checkbox" checked> Saturday</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>⏰ Time Slot Configuration</h3>
+                        <div class="timeslot-list">
+                            <div class="timeslot-item">
+                                <input type="text" value="09:00-10:00" class="form-control">
+                                <button class="btn-danger">❌</button>
+                            </div>
+                            <div class="timeslot-item">
+                                <input type="text" value="10:00-11:00" class="form-control">
+                                <button class="btn-danger">❌</button>
+                            </div>
+                            <div class="timeslot-item">
+                                <input type="text" value="11:00-12:00" class="form-control">
+                                <button class="btn-danger">❌</button>
+                            </div>
+                        </div>
+                        <button class="btn-success">➕ Add Time Slot</button>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>🤖 AI Configuration</h3>
+                        <div class="form-group">
+                            <label>Genetic Algorithm Population Size</label>
+                            <input type="number" value="100" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Maximum Generations</label>
+                            <input type="number" value="100" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>NLP Confidence Threshold</label>
+                            <input type="number" value="0.85" step="0.01" min="0" max="1" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>📲 Notification Settings</h3>
+                        <div class="form-group">
+                            <label>WhatsApp API Key</label>
+                            <input type="text" placeholder="Enter WhatsApp Business API key" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Email SMTP Server</label>
+                            <input type="text" placeholder="smtp.gmail.com" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Telegram Bot Token</label>
+                            <input type="text" placeholder="Enter Telegram bot token" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button class="btn-success">💾 Save Settings</button>
+                    <button class="btn-warning">🔄 Reset to Defaults</button>
+                    <button class="btn-info">📤 Export Configuration</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// Additional UI functions for templates and interactions
+window.downloadTemplate = function(type) {
+    console.log(`📥 Downloading ${type} template...`);
+    
+    const templates = {
+        teachers: "TeacherID,Name,DeptID,Subjects,MaxHoursPerWeek\nT001,Prof. Name,AI,Machine Learning,18",
+        courses: "CourseID,CourseName,DeptID,HoursPerWeek,RoomType\nC001,Course Name,AI,4,Lab",
+        rooms: "RoomID,RoomName,Type,Capacity\nCR01,Classroom 1,Classroom,60",
+        classes: "ClassID,ClassName,DeptID,Strength,Courses\nCL001,Class Name,AI,40,C001,C002",
+        students: "StudentID,Name,ClassID\nS001,Student Name,CL001",
+        specialSlots: "EntryID,ClassID,CourseID,Day,Timeslot,RoomID,TeacherID\nSP001,CL001,C001,Monday,10:00-11:00,LAB01,T001",
+        holidays: "HolidayID,Date,Day,Reason\nH001,2025-10-02,Wednesday,Gandhi Jayanti"
+    };
+    
+    const csvContent = templates[type] || "Template not found";
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${type}_template.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    
+    showNotification(`✅ ${type} template downloaded successfully!`, 'success');
+};
+
+window.selectScenario = function(scenarioType) {
+    const detailsPanel = document.getElementById('scenarioDetails');
+    const formContainer = document.getElementById('scenarioForm');
+    
+    detailsPanel.style.display = 'block';
+    
+    let formHTML = '';
+    switch(scenarioType) {
+        case 'addFaculty':
+            formHTML = `
+                <div class="form-group">
+                    <label>Faculty Name</label>
+                    <input type="text" id="facultyName" placeholder="Enter faculty name">
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <select id="facultyDept">
+                        <option value="AI">Artificial Intelligence</option>
+                        <option value="CSE">Computer Science</option>
+                        <option value="BDA">Big Data Analytics</option>
+                        <option value="CC">Cloud Computing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Subjects</label>
+                    <input type="text" id="facultySubjects" placeholder="Enter subjects (comma separated)">
+                </div>
+                <div class="form-group">
+                    <label>Max Hours Per Week</label>
+                    <input type="number" id="facultyHours" value="18" min="10" max="25">
+                </div>
+            `;
+            break;
+        case 'addCourse':
+            formHTML = `
+                <div class="form-group">
+                    <label>Course Name</label>
+                    <input type="text" id="courseName" placeholder="Enter course name">
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <select id="courseDept">
+                        <option value="AI">Artificial Intelligence</option>
+                        <option value="CSE">Computer Science</option>
+                        <option value="BDA">Big Data Analytics</option>
+                        <option value="CC">Cloud Computing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hours Per Week</label>
+                    <input type="number" id="courseHours" value="3" min="1" max="6">
+                </div>
+                <div class="form-group">
+                    <label>Room Type</label>
+                    <select id="courseRoomType">
+                        <option value="Classroom">Classroom</option>
+                        <option value="Lab">Laboratory</option>
+                    </select>
+                </div>
+            `;
+            break;
+    }
+    
+    formContainer.innerHTML = formHTML;
+};
+
+window.runSimulation = function() {
+    const resultsPanel = document.getElementById('simulationResults');
+    resultsPanel.style.display = 'block';
+    
+    // Simulate running what-if analysis
+    showNotification('🔮 Running what-if simulation...', 'info');
+    
+    setTimeout(() => {
+        showNotification('✅ What-if simulation completed successfully!', 'success');
+    }, 3000);
+};
+
+window.displayTimetable = function(viewType) {
+    const display = document.getElementById('timetableDisplay');
+    
+    // Update active tab
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Display appropriate view
+    display.innerHTML = `<div class="timetable-placeholder">
+        <h4>📅 ${viewType.charAt(0).toUpperCase() + viewType.slice(1)} Timetable View</h4>
+        <p>Timetable will be displayed here once generated successfully.</p>
+    </div>`;
+};
+
+window.exportTimetable = function(format) {
+    showNotification(`📤 Exporting timetable as ${format.toUpperCase()}...`, 'info');
+    setTimeout(() => {
+        showNotification(`✅ Timetable exported as ${format.toUpperCase()} successfully!`, 'success');
+    }, 2000);
+};
+
+window.shareSchedule = function() {
+    showNotification('📤 Preparing schedule for sharing...', 'info');
+    setTimeout(() => {
+        showNotification('✅ Schedule shared successfully via notification channels!', 'success');
+    }, 1500);
+};
+
+window.findSubstitute = function(teacherID, subject) {
+    showNotification(`🔍 Finding substitute for ${subject}...`, 'info');
+    setTimeout(() => {
+        showNotification(`✅ Found 3 suitable substitutes for ${subject}!`, 'success');
+    }, 2000);
+};
+
+window.searchSubstitutes = function() {
+    const subject = document.getElementById('substituteSubject').value;
+    const timeSlot = document.getElementById('substituteTimeSlot').value;
+    const day = document.getElementById('substituteDay').value;
+    
+    if (!subject || !timeSlot || !day) {
+        showNotification('Please fill all fields to search for substitutes', 'error');
+        return;
+    }
+    
+    const resultsDiv = document.getElementById('substituteResults');
+    resultsDiv.style.display = 'block';
+    resultsDiv.innerHTML = `
+        <h4>🤖 AI Substitute Suggestions for ${subject}</h4>
+        <div class="substitute-list">
+            <div class="substitute-card">
+                <h5>Dr. Priya Sharma</h5>
+                <p>Expertise Match: 92% | Status: Available</p>
+                <button class="btn-success">✅ Assign</button>
+            </div>
+            <div class="substitute-card">
+                <h5>Prof. Amit Kumar</h5>
+                <p>Expertise Match: 87% | Status: Free after 11 AM</p>
+                <button class="btn-success">✅ Assign</button>
+            </div>
+        </div>
+    `;
+    
+    showNotification('🤖 AI found suitable substitute suggestions!', 'success');
+};
+
+window.sendBulkNotification = function() {
+    const recipients = document.getElementById('notificationRecipients').selectedOptions;
+    const message = document.getElementById('notificationMessage').value;
+    
+    if (recipients.length === 0 || !message) {
+        showNotification('Please select recipients and enter a message', 'error');
+        return;
+    }
+    
+    showNotification('📤 Sending notifications...', 'info');
+    setTimeout(() => {
+        showNotification(`✅ Notification sent to ${recipients.length} recipient groups!`, 'success');
+        document.getElementById('notificationMessage').value = '';
+    }, 2000);
+};
+
+// Initialize upload zones
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadTypes = ['teachers', 'courses', 'rooms', 'classes', 'students', 'specialSlots', 'holidays'];
+    
+    uploadTypes.forEach(type => {
+        const uploadZone = document.getElementById(type + 'UploadZone');
+        const fileInput = document.getElementById(type + 'FileInput');
+        
+        if (uploadZone && fileInput) {
+            uploadZone.addEventListener('click', () => fileInput.click());
+        }
+    });
+});
+
+// Logout function
+document.getElementById('logoutBtn').addEventListener('click', function() {
+    if (confirm('Are you sure you want to logout?')) {
+        window.location.href = 'login.html';
+    }
+});
+
+</script>
+</body>
+</html>

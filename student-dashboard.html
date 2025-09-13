@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Smart Timetable Scheduler - Student Dashboard</title>
+<link rel="stylesheet" href="final-styles.css" />
+<script src="final-working-system.js" defer></script>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Student Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">👨‍🎓</div>
+            <h3>Student Portal</h3>
+            <p>Student Dashboard</p>
+            <div class="ai-status">
+                <span class="status-dot online"></span>
+                <small>System Online</small>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#my-timetable" class="nav-item active"><span class="nav-icon">📅</span><span>My Timetable</span></a>
+            <a href="#my-subjects" class="nav-item"><span class="nav-icon">📚</span><span>My Subjects</span></a>
+            <a href="#announcements" class="nav-item"><span class="nav-icon">📢</span><span>Announcements</span></a>
+            <a href="#exam-schedule" class="nav-item"><span class="nav-icon">📝</span><span>Exam Schedule</span></a>
+            <a href="#notifications" class="nav-item"><span class="nav-icon">📲</span><span>Notifications</span></a>
+            <a href="#profile" class="nav-item"><span class="nav-icon">👤</span><span>My Profile</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout"><span>🚪</span><span>Logout</span></button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <h1 id="currentPageTitle">My Timetable</h1>
+                <p id="currentPageDesc">View your class schedule and updates</p>
+            </div>
+            <div class="top-actions">
+                <div class="notification-center">
+                    <button class="notification-bell" id="notificationBell">🔔<span class="notification-count" id="notificationCount">5</span></button>
+                </div>
+                <div class="user-profile">
+                    <img alt="Student" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23f59e0b'/><text x='16' y='20' text-anchor='middle' fill='white' font-family='Arial' font-size='12'>S</text></svg>"/>
+                    <span id="currentUserName">Student User</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MY TIMETABLE VIEW -->
+        <div id="my-timetable-view" class="content-view active">
+            <div class="overview-grid">
+                <!-- Student Stats -->
+                <div class="stats-row">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-content">
+                            <div class="stat-number">6</div>
+                            <div class="stat-label">Subjects This Semester</div>
+                            <div class="stat-change">AI Specialization</div>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <div class="stat-number">24</div>
+                            <div class="stat-label">Hours Per Week</div>
+                            <div class="stat-change">Including labs</div>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">🏫</div>
+                        <div class="stat-content">
+                            <div class="stat-number">8</div>
+                            <div class="stat-label">Different Rooms</div>
+                            <div class="stat-change">Labs + Classrooms</div>
+                        </div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-icon">📢</div>
+                        <div class="stat-content">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">New Announcements</div>
+                            <div class="stat-change">Unread messages</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class Schedule -->
+                <div class="timetable-panel">
+                    <div class="timetable-header">
+                        <h3>📅 My Class Schedule - AI 2nd Year A</h3>
+                        <div class="schedule-controls">
+                            <button class="btn-secondary active" onclick="showWeeklyView()">Weekly</button>
+                            <button class="btn-secondary" onclick="showDailyView()">Daily</button>
+                            <button class="btn-primary" onclick="downloadSchedule()">📤 Download</button>
+                        </div>
+                    </div>
+                    <div class="timetable-display">
+                        <table class="timetable-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                    <th>Saturday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="time-slot">09:00-10:00</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Machine Learning</strong>
+                                            <small>Prof. Rajesh Mehta</small>
+                                            <small>LAB01</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Data Structures</strong>
+                                            <small>Dr. Priya Sharma</small>
+                                            <small>CR03</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Physics-I</strong>
+                                            <small>Dr. Pooja Agarwal</small>
+                                            <small>CR01</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Calculus</strong>
+                                            <small>Prof. Suresh Nair</small>
+                                            <small>CR02</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Machine Learning</strong>
+                                            <small>Prof. Rajesh Mehta</small>
+                                            <small>LAB01</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                </tr>
+                                <tr>
+                                    <td class="time-slot">10:00-11:00</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>NLP</strong>
+                                            <small>Prof. Rahul Bansal</small>
+                                            <small>CR04</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Break</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Data Structures</strong>
+                                            <small>Dr. Priya Sharma</small>
+                                            <small>LAB03</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Physics-I</strong>
+                                            <small>Dr. Pooja Agarwal</small>
+                                            <small>LAB09</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Calculus</strong>
+                                            <small>Prof. Suresh Nair</small>
+                                            <small>CR05</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="time-slot">11:00-12:00</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Chemistry-I</strong>
+                                            <small>Dr. Anita Verma</small>
+                                            <small>CR06</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Machine Learning</strong>
+                                            <small>Prof. Rajesh Mehta</small>
+                                            <small>CR01</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>NLP</strong>
+                                            <small>Prof. Rahul Bansal</small>
+                                            <small>LAB01</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Chemistry-I</strong>
+                                            <small>Dr. Anita Verma</small>
+                                            <small>LAB10</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="time-slot">12:00-13:00</td>
+                                    <td class="class-slot free lunch">Lunch Break</td>
+
+                                </tr>
+                                <tr>
+                                    <td class="time-slot">14:00-15:00</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Data Structures</strong>
+                                            <small>Dr. Priya Sharma</small>
+                                            <small>CR03</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Physics-I</strong>
+                                            <small>Dr. Pooja Agarwal</small>
+                                            <small>CR02</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Calculus</strong>
+                                            <small>Prof. Suresh Nair</small>
+                                            <small>CR01</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Chemistry-I</strong>
+                                            <small>Dr. Anita Verma</small>
+                                            <small>CR04</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>NLP</strong>
+                                            <small>Prof. Rahul Bansal</small>
+                                            <small>CR05</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Today's Classes -->
+                <div class="todays-classes-panel">
+                    <h3>📅 Today's Classes</h3>
+                    <div class="class-list">
+                        <div class="class-item completed">
+                            <div class="class-time">09:00-10:00</div>
+                            <div class="class-details">
+                                <h4>Machine Learning</h4>
+                                <p>Prof. Rajesh Mehta • LAB01</p>
+                            </div>
+                            <div class="class-status">✅ Attended</div>
+                        </div>
+                        
+                        <div class="class-item current">
+                            <div class="class-time">10:00-11:00</div>
+                            <div class="class-details">
+                                <h4>NLP</h4>
+                                <p>Prof. Rahul Bansal • CR04</p>
+                            </div>
+                            <div class="class-status">🔴 Live Now</div>
+                        </div>
+                        
+                        <div class="class-item upcoming">
+                            <div class="class-time">11:00-12:00</div>
+                            <div class="class-details">
+                                <h4>Chemistry-I</h4>
+                                <p>Dr. Anita Verma • CR06</p>
+                            </div>
+                            <div class="class-status">⏰ Upcoming</div>
+                        </div>
+                        
+                        <div class="class-item upcoming">
+                            <div class="class-time">14:00-15:00</div>
+                            <div class="class-details">
+                                <h4>Data Structures</h4>
+                                <p>Dr. Priya Sharma • CR03</p>
+                            </div>
+                            <div class="class-status">⏰ Upcoming</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-panel">
+                    <h3>🚀 Quick Actions</h3>
+                    <div class="action-grid">
+                        <button class="action-btn primary" onclick="downloadSchedule()">
+                            <div class="action-icon">📤</div>
+                            <div class="action-text">
+                                <h4>Download Schedule</h4>
+                                <p>Export timetable as PDF</p>
+                            </div>
+                        </button>
+                        <button class="action-btn info" onclick="document.querySelector('[href=&quot;#announcements&quot;]').click()">
+                            <div class="action-icon">📢</div>
+                            <div class="action-text">
+                                <h4>Announcements</h4>
+                                <p>3 new updates available</p>
+                            </div>
+                        </button>
+                        <button class="action-btn warning" onclick="document.querySelector('[href=&quot;#exam-schedule&quot;]').click()">
+                            <div class="action-icon">📝</div>
+                            <div class="action-text">
+                                <h4>Exam Schedule</h4>
+                                <p>Check upcoming exams</p>
+                            </div>
+                        </button>
+                        <button class="action-btn success" onclick="document.querySelector('[href=&quot;#profile&quot;]').click()">
+                            <div class="action-icon">👤</div>
+                            <div class="action-text">
+                                <h4>My Profile</h4>
+                                <p>Update personal information</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MY SUBJECTS VIEW -->
+        <div id="my-subjects-view" class="content-view">
+            <div class="subjects-container">
+                <div class="subjects-header">
+                    <h2>📚 My Subjects</h2>
+                    <p>View your enrolled subjects and progress</p>
+                </div>
+
+                <div class="subjects-grid">
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon">🤖</div>
+                            <h3>Machine Learning</h3>
+                            <div class="subject-code">AI-ML-201</div>
+                        </div>
+                        <div class="subject-details">
+                            <div class="subject-info">
+                                <span class="info-label">Instructor:</span>
+                                <span>Prof. Rajesh Mehta</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Credits:</span>
+                                <span>4 Credits</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Room:</span>
+                                <span>LAB01</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Schedule:</span>
+                                <span>Mon, Fri 09:00-10:00</span>
+                            </div>
+                        </div>
+                        <div class="subject-progress">
+                            <div class="progress-info">
+                                <span>Progress</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn-primary">📚 Course Materials</button>
+                            <button class="btn-info">📊 View Grades</button>
+                        </div>
+                    </div>
+
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon">🧠</div>
+                            <h3>Natural Language Processing</h3>
+                            <div class="subject-code">AI-NLP-301</div>
+                        </div>
+                        <div class="subject-details">
+                            <div class="subject-info">
+                                <span class="info-label">Instructor:</span>
+                                <span>Prof. Rahul Bansal</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Credits:</span>
+                                <span>3 Credits</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Room:</span>
+                                <span>CR04</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Schedule:</span>
+                                <span>Mon, Thu 10:00-11:00</span>
+                            </div>
+                        </div>
+                        <div class="subject-progress">
+                            <div class="progress-info">
+                                <span>Progress</span>
+                                <span>78%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;"></div>
+                            </div>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn-primary">📚 Course Materials</button>
+                            <button class="btn-info">📊 View Grades</button>
+                        </div>
+                    </div>
+
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-icon">💾</div>
+                            <h3>Data Structures</h3>
+                            <div class="subject-code">CSE-DS-201</div>
+                        </div>
+                        <div class="subject-details">
+                            <div class="subject-info">
+                                <span class="info-label">Instructor:</span>
+                                <span>Dr. Priya Sharma</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Credits:</span>
+                                <span>4 Credits</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Room:</span>
+                                <span>CR03</span>
+                            </div>
+                            <div class="subject-info">
+                                <span class="info-label">Schedule:</span>
+                                <span>Tue, Wed, Mon 14:00-15:00</span>
+                            </div>
+                        </div>
+                        <div class="subject-progress">
+                            <div class="progress-info">
+                                <span>Progress</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn-primary">📚 Course Materials</button>
+                            <button class="btn-info">📊 View Grades</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANNOUNCEMENTS VIEW -->
+        <div id="announcements-view" class="content-view">
+            <div class="announcements-container">
+                <div class="announcements-header">
+                    <h2>📢 Announcements</h2>
+                    <p>Important updates and notices</p>
+                </div>
+
+                <div class="announcements-list">
+                    <div class="announcement-card urgent">
+                        <div class="announcement-header">
+                            <div class="announcement-type urgent">🚨 Urgent</div>
+                            <div class="announcement-date">Today, 9:30 AM</div>
+                        </div>
+                        <h3>Class Rescheduled - Machine Learning</h3>
+                        <p>Tomorrow's Machine Learning lab (10 AM) has been moved to 2 PM due to faculty meeting. Same room LAB01.</p>
+                        <div class="announcement-actions">
+                            <button class="btn-primary">✅ Mark as Read</button>
+                            <button class="btn-secondary">📤 Share</button>
+                        </div>
+                    </div>
+
+                    <div class="announcement-card important">
+                        <div class="announcement-header">
+                            <div class="announcement-type important">⚠️ Important</div>
+                            <div class="announcement-date">Yesterday, 3:15 PM</div>
+                        </div>
+                        <h3>Mid-Semester Examination Schedule Released</h3>
+                        <p>The mid-semester examination schedule for AI department has been published. Check the exam schedule section for detailed timings and venues.</p>
+                        <div class="announcement-actions">
+                            <button class="btn-primary">📝 View Exam Schedule</button>
+                            <button class="btn-secondary">📤 Share</button>
+                        </div>
+                    </div>
+
+                    <div class="announcement-card general">
+                        <div class="announcement-header">
+                            <div class="announcement-type general">ℹ️ General</div>
+                            <div class="announcement-date">2 days ago</div>
+                        </div>
+                        <h3>Library Hours Extended for Exam Period</h3>
+                        <p>The university library will remain open until 11 PM during the examination period. Additional study spaces have been arranged in the main auditorium.</p>
+                        <div class="announcement-actions">
+                            <button class="btn-secondary">📤 Share</button>
+                        </div>
+                    </div>
+
+                    <div class="announcement-card general">
+                        <div class="announcement-header">
+                            <div class="announcement-type general">📚 Academic</div>
+                            <div class="announcement-date">3 days ago</div>
+                        </div>
+                        <h3>Guest Lecture on Advanced AI Techniques</h3>
+                        <p>Dr. Sarah Johnson from MIT will be conducting a guest lecture on "Future of AI in Healthcare" on Friday, 2 PM in Auditorium Hall A.</p>
+                        <div class="announcement-actions">
+                            <button class="btn-info">📅 Add to Calendar</button>
+                            <button class="btn-secondary">📤 Share</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXAM SCHEDULE VIEW -->
+        <div id="exam-schedule-view" class="content-view">
+            <div class="exam-container">
+                <div class="exam-header">
+                    <h2>📝 Examination Schedule</h2>
+                    <p>Mid-semester and final examination details</p>
+                </div>
+
+                <div class="exam-tabs">
+                    <button class="exam-tab active" onclick="showExamType('mid')">Mid-Semester</button>
+                    <button class="exam-tab" onclick="showExamType('final')">Final Exams</button>
+                    <button class="exam-tab" onclick="showExamType('supplementary')">Supplementary</button>
+                </div>
+
+                <div class="exam-schedule-grid">
+                    <div class="exam-card">
+                        <div class="exam-subject">
+                            <h3>Machine Learning</h3>
+                            <div class="exam-code">AI-ML-201</div>
+                        </div>
+                        <div class="exam-details">
+                            <div class="exam-info">
+                                <span class="info-icon">📅</span>
+                                <span>October 15, 2025</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">⏰</span>
+                                <span>10:00 AM - 1:00 PM</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">🏫</span>
+                                <span>Examination Hall A</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">👨‍🏫</span>
+                                <span>Prof. Rajesh Mehta</span>
+                            </div>
+                        </div>
+                        <div class="exam-status upcoming">
+                            <span>📅 Upcoming</span>
+                            <span class="countdown">5 days left</span>
+                        </div>
+                    </div>
+
+                    <div class="exam-card">
+                        <div class="exam-subject">
+                            <h3>Data Structures</h3>
+                            <div class="exam-code">CSE-DS-201</div>
+                        </div>
+                        <div class="exam-details">
+                            <div class="exam-info">
+                                <span class="info-icon">📅</span>
+                                <span>October 17, 2025</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">⏰</span>
+                                <span>2:00 PM - 5:00 PM</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">🏫</span>
+                                <span>Examination Hall B</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">👨‍🏫</span>
+                                <span>Dr. Priya Sharma</span>
+                            </div>
+                        </div>
+                        <div class="exam-status upcoming">
+                            <span>📅 Upcoming</span>
+                            <span class="countdown">7 days left</span>
+                        </div>
+                    </div>
+
+                    <div class="exam-card">
+                        <div class="exam-subject">
+                            <h3>Natural Language Processing</h3>
+                            <div class="exam-code">AI-NLP-301</div>
+                        </div>
+                        <div class="exam-details">
+                            <div class="exam-info">
+                                <span class="info-icon">📅</span>
+                                <span>October 20, 2025</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">⏰</span>
+                                <span>9:00 AM - 12:00 PM</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">🏫</span>
+                                <span>Computer Lab 3</span>
+                            </div>
+                            <div class="exam-info">
+                                <span class="info-icon">👨‍🏫</span>
+                                <span>Prof. Rahul Bansal</span>
+                            </div>
+                        </div>
+                        <div class="exam-status upcoming">
+                            <span>📅 Upcoming</span>
+                            <span class="countdown">10 days left</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS VIEW -->
+        <div id="notifications-view" class="content-view">
+            <div class="notifications-container">
+                <div class="notifications-header">
+                    <h2>📲 My Notifications</h2>
+                    <p>Recent updates and alerts</p>
+                </div>
+
+                <div class="notification-filters">
+                    <button class="filter-btn active" onclick="filterNotifications('all')">All</button>
+                    <button class="filter-btn" onclick="filterNotifications('schedule')">Schedule</button>
+                    <button class="filter-btn" onclick="filterNotifications('grades')">Grades</button>
+                    <button class="filter-btn" onclick="filterNotifications('announcements')">Announcements</button>
+                </div>
+
+                <div class="notification-list-full">
+                    <div class="notification-item new schedule">
+                        <div class="notification-icon">🔄</div>
+                        <div class="notification-content">
+                            <h4>Class Rescheduled</h4>
+                            <p>Machine Learning lab moved from LAB01 to LAB02 for tomorrow</p>
+                            <small>2 minutes ago</small>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-sm-success">✅</button>
+                        </div>
+                    </div>
+
+                    <div class="notification-item new grades">
+                        <div class="notification-icon">📊</div>
+                        <div class="notification-content">
+                            <h4>Grade Updated</h4>
+                            <p>Your Data Structures assignment grade has been published: A+</p>
+                            <small>1 hour ago</small>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-sm-info">👁️</button>
+                        </div>
+                    </div>
+
+                    <div class="notification-item announcements">
+                        <div class="notification-icon">📢</div>
+                        <div class="notification-content">
+                            <h4>Important Announcement</h4>
+                            <p>Mid-term exam schedule has been released</p>
+                            <small>3 hours ago</small>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-sm-info">📝</button>
+                        </div>
+                    </div>
+
+                    <div class="notification-item schedule">
+                        <div class="notification-icon">👨‍🏫</div>
+                        <div class="notification-content">
+                            <h4>Substitute Teacher</h4>
+                            <p>Dr. Neha Gupta will take today's NLP class instead of Prof. Bansal</p>
+                            <small>5 hours ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFILE VIEW -->
+        <div id="profile-view" class="content-view">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h2>👤 My Profile</h2>
+                    <p>Manage your personal information and preferences</p>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='40' cy='40' r='40' fill='%23f59e0b'/><text x='40' y='50' text-anchor='middle' fill='white' font-family='Arial' font-size='24'>S</text></svg>" alt="Student Avatar">
+                            <button class="change-avatar">📷 Change Photo</button>
+                        </div>
+                        <div class="profile-info">
+                            <h3>Student User</h3>
+                            <div class="profile-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Student ID:</span>
+                                    <span>STU001</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Class:</span>
+                                    <span>AI-2nd Year-A</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Department:</span>
+                                    <span>Artificial Intelligence</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Academic Year:</span>
+                                    <span>2025-2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-form">
+                        <h3>📝 Personal Information</h3>
+                        <form id="profileForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" value="Student User" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" value="student@university.edu" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" value="+91 9876543210" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input type="date" value="2003-05-15" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" rows="3">123 University Lane, Academic City, State - 123456</textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">💾 Update Profile</button>
+                        </form>
+                    </div>
+
+                    <div class="preferences-card">
+                        <h3>⚙️ Preferences</h3>
+                        <div class="preference-item">
+                            <div class="preference-label">
+                                <span>📧 Email Notifications</span>
+                                <small>Receive updates via email</small>
+                            </div>
+                            <div class="preference-control">
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="preference-item">
+                            <div class="preference-label">
+                                <span>📱 SMS Alerts</span>
+                                <small>Get important alerts on phone</small>
+                            </div>
+                            <div class="preference-control">
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="preference-item">
+                            <div class="preference-label">
+                                <span>🔔 Push Notifications</span>
+                                <small>Browser notifications</small>
+                            </div>
+                            <div class="preference-control">
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="preference-item">
+                            <div class="preference-label">
+                                <span>🌙 Dark Mode</span>
+                                <small>Use dark theme</small>
+                            </div>
+                            <div class="preference-control">
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Student Dashboard JavaScript Functions
+
+function showWeeklyView() {
+    document.querySelectorAll('.schedule-controls .btn-secondary').forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    // Weekly view is already shown
+}
+
+function showDailyView() {
+    document.querySelectorAll('.schedule-controls .btn-secondary').forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    alert('Switching to daily view...');
+}
+
+function downloadSchedule() {
+    alert('Downloading your timetable as PDF...');
+}
+
+function showExamType(type) {
+    document.querySelectorAll('.exam-tab').forEach(function(tab) { tab.classList.remove('active'); });
+    event.target.classList.add('active');
+    
+    // Filter exam cards based on type
+    console.log(`Showing ${type} exams`);
+}
+
+function filterNotifications(type) {
+    document.querySelectorAll('.filter-btn').forEach(function(btn) { btn.classList.remove('active'); });
+    event.target.classList.add('active');
+    
+    const items = document.querySelectorAll('.notification-item');
+    items.forEach(function(item) {
+        if (type === 'all' || item.classList.contains(type)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Navigation handling
+document.addEventListener('DOMContentLoaded', function() {
+    const navItems = document.querySelectorAll('.nav-item');
+    const contentViews = document.querySelectorAll('.content-view');
+    
+    navItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Update active nav
+            navItems.forEach(function(nav) { nav.classList.remove('active'); });
+            this.classList.add('active');
+            
+            // Show corresponding view
+            const targetView = this.getAttribute('href').substring(1) + '-view';
+            contentViews.forEach(function(view) { view.classList.remove('active'); });
+            const target = document.getElementById(targetView);
+            if (target) {
+                target.classList.add('active');
+                updatePageTitle(targetView);
+            }
+        });
+    });
+    
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = 'login.html';
+        }
+    });
+    
+    // Auto-update current time and class status
+    updateClassStatus();
+    setInterval(updateClassStatus, 60000); // Update every minute
+});
+
+function updatePageTitle(viewId) {
+    const titles = {
+        'my-timetable-view': { title: 'My Timetable', desc: 'View your class schedule and updates' },
+        'my-subjects-view': { title: 'My Subjects', desc: 'View enrolled subjects and progress' },
+        'announcements-view': { title: 'Announcements', desc: 'Important updates and notices' },
+        'exam-schedule-view': { title: 'Exam Schedule', desc: 'Mid-semester and final examination details' },
+        'notifications-view': { title: 'My Notifications', desc: 'Recent updates and alerts' },
+        'profile-view': { title: 'My Profile', desc: 'Manage personal information and preferences' }
+    };
+    
+    const info = titles[viewId];
+    if (info) {
+        document.getElementById('currentPageTitle').textContent = info.title;
+        document.getElementById('currentPageDesc').textContent = info.desc;
+    }
+}
+
+function updateClassStatus() {
+    const now = new Date();
+    const currentHour = now.getHours();
+    
+    document.querySelectorAll('.class-item').forEach(function(item) {
+        item.classList.remove('current');
+    });
+    
+    // Highlight current class based on time
+    if (currentHour >= 10 && currentHour < 11) {
+        const currentClass = document.querySelectorAll('.class-item')[1];
+        if (currentClass) currentClass.classList.add('current');
+    }
+}
+</script>
+</body>
+</html>

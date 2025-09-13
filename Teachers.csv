@@ -1,0 +1,16 @@
+TeacherID,Name,Designation,DeptID,Subjects,MaxHoursPerWeek,MinHoursPerWeek,CanTeachAcrossDepts,Email,Phone
+T001,Dr. Rajesh Mehta,HOD,CSE,"Data Structures,Algorithms,Database Systems",12,8,Yes,rajesh@university.edu,+91-9876543210
+T002,Prof. Priya Sharma,Professor,CSE,"Machine Learning,AI,Deep Learning",16,12,Yes,priya@university.edu,+91-9876543211
+T003,Dr. Amit Kumar,Associate Professor,CSE,"Computer Networks,Operating Systems",18,14,No,amit@university.edu,+91-9876543212
+T004,Ms. Sunita Patel,Assistant Professor,CSE,"Programming,Software Engineering",20,16,No,sunita@university.edu,+91-9876543213
+T005,Mr. Ravi Singh,Junior Professor,CSE,"Basic Programming,Mathematics",22,18,No,ravi@university.edu,+91-9876543214
+T006,Dr. Neha Gupta,HOD,AI,"Machine Learning,Deep Learning,NLP",12,8,Yes,neha@university.edu,+91-9876543215
+T007,Prof. Vikram Joshi,Professor,AI,"Computer Vision,Robotics",16,12,Yes,vikram@university.edu,+91-9876543216
+T008,Dr. Kavya Reddy,Associate Professor,BDA,"Big Data Analytics,Statistics",18,14,No,kavya@university.edu,+91-9876543217
+T009,Ms. Pooja Agarwal,Assistant Professor,PHY,"Physics-I,Physics-II,Quantum Physics",20,16,Yes,pooja@university.edu,+91-9876543218
+T010,Dr. Suresh Nair,Professor,MAT,"Calculus,Linear Algebra,Discrete Mathematics",16,12,Yes,suresh@university.edu,+91-9876543219
+T011,Dr. Anita Verma,Associate Professor,CHE,"Chemistry-I,Chemistry-II,Organic Chemistry",18,14,Yes,anita@university.edu,+91-9876543220
+T012,Prof. Rahul Bansal,Professor,AI,"NLP,Robotics,Machine Learning",16,12,Yes,rahul@university.edu,+91-9876543221
+T013,Dr. Deepika Shah,HOD,BDA,"Data Mining,Big Data,Analytics",12,8,Yes,deepika@university.edu,+91-9876543222
+T014,Ms. Manoj Tiwari,Assistant Professor,CC,"Cloud Computing,AWS,Azure",20,16,No,manoj@university.edu,+91-9876543223
+T015,Dr. Arjun Rao,Associate Professor,CC,"Distributed Systems,Virtualization",18,14,No,arjun@university.edu,+91-9876543224

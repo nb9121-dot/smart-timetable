@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Smart Timetable Scheduler - Faculty Dashboard</title>
+<link rel="stylesheet" href="final-styles.css" />
+<script src="final-working-system.js" defer></script>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Faculty Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">👨‍🏫</div>
+            <h3>Faculty Portal</h3>
+            <p>Teacher Dashboard</p>
+            <div class="ai-status">
+                <span class="status-dot online"></span>
+                <small>System Online</small>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#my-schedule" class="nav-item active"><span class="nav-icon">📅</span><span>My Schedule</span></a>
+            <a href="#absence-mgmt" class="nav-item"><span class="nav-icon">🏠</span><span>Mark Absence</span></a>
+            <a href="#substitute-requests" class="nav-item"><span class="nav-icon">🔄</span><span>Substitute Requests</span></a>
+            <a href="#my-classes" class="nav-item"><span class="nav-icon">🎓</span><span>My Classes</span></a>
+            <a href="#notifications" class="nav-item"><span class="nav-icon">📲</span><span>Notifications</span></a>
+            <a href="#analytics" class="nav-item"><span class="nav-icon">📊</span><span>My Analytics</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="btn-logout"><span>🚪</span><span>Logout</span></button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <h1 id="currentPageTitle">My Schedule</h1>
+                <p id="currentPageDesc">View and manage your teaching schedule</p>
+            </div>
+            <div class="top-actions">
+                <div class="notification-center">
+                    <button class="notification-bell" id="notificationBell">🔔<span class="notification-count" id="notificationCount">3</span></button>
+                </div>
+                <div class="user-profile">
+                    <img alt="Faculty" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%2310b981'/><text x='16' y='20' text-anchor='middle' fill='white' font-family='Arial' font-size='12'>F</text></svg>"/>
+                    <span id="currentUserName">Prof. Faculty</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MY SCHEDULE VIEW -->
+        <div id="my-schedule-view" class="content-view active">
+            <div class="overview-grid">
+                <!-- Faculty Stats -->
+                <div class="stats-row">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-content">
+                            <div class="stat-number">18</div>
+                            <div class="stat-label">Hours This Week</div>
+                            <div class="stat-change">2 hours remaining</div>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">🎓</div>
+                        <div class="stat-content">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Classes Teaching</div>
+                            <div class="stat-change">AI, CSE courses</div>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">📍</div>
+                        <div class="stat-content">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Rooms Assigned</div>
+                            <div class="stat-change">Lab + Classroom</div>
+                        </div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-icon">🔄</div>
+                        <div class="stat-content">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Substitute Requests</div>
+                            <div class="stat-change">Pending approval</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Timetable -->
+                <div class="timetable-panel">
+                    <h3>📅 My Weekly Schedule</h3>
+                    <div class="timetable-display">
+                        <table class="timetable-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                    <th>Saturday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="time-slot">09:00-10:00</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Machine Learning</strong>
+                                            <small>AI-2nd Year-A</small>
+                                            <small>LAB01 (40 students)</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Deep Learning</strong>
+                                            <small>AI-3rd Year-A</small>
+                                            <small>LAB02 (35 students)</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Machine Learning</strong>
+                                            <small>AI-2nd Year-B</small>
+                                            <small>LAB01 (38 students)</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                </tr>
+                                <tr>
+                                    <td class="time-slot">10:00-11:00</td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Computer Vision</strong>
+                                            <small>AI-3rd Year-B</small>
+                                            <small>CR01 (33 students)</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>NLP</strong>
+                                            <small>AI-3rd Year-A</small>
+                                            <small>CR02 (35 students)</small>
+                                        </div>
+                                    </td>
+                                    <td class="class-slot free">Free</td>
+                                    <td class="class-slot filled regular-slot">
+                                        <div class="class-info">
+                                            <strong>Deep Learning</strong>
+                                            <small>AI-3rd Year-B</small>
+                                            <small>LAB02 (33 students)</small>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-panel">
+                    <h3>🚀 Quick Actions</h3>
+                    <div class="action-grid">
+                        <button class="action-btn danger" onclick="document.querySelector('[href=&quot;#absence-mgmt&quot;]').click()">
+                            <div class="action-icon">🏠</div>
+                            <div class="action-text">
+                                <h4>Mark Absence</h4>
+                                <p>Report unavailability for classes</p>
+                            </div>
+                        </button>
+                        <button class="action-btn warning" onclick="document.querySelector('[href=&quot;#substitute-requests&quot;]').click()">
+                            <div class="action-icon">🔄</div>
+                            <div class="action-text">
+                                <h4>Substitute Requests</h4>
+                                <p>2 pending approval</p>
+                            </div>
+                        </button>
+                        <button class="action-btn info" onclick="downloadSchedule()">
+                            <div class="action-icon">📤</div>
+                            <div class="action-text">
+                                <h4>Download Schedule</h4>
+                                <p>Export as PDF or Excel</p>
+                            </div>
+                        </button>
+                        <button class="action-btn success" onclick="document.querySelector('[href=&quot;#analytics&quot;]').click()">
+                            <div class="action-icon">📊</div>
+                            <div class="action-text">
+                                <h4>My Analytics</h4>
+                                <p>Teaching load and performance</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABSENCE MANAGEMENT VIEW -->
+        <div id="absence-mgmt-view" class="content-view">
+            <div class="absence-container">
+                <div class="absence-header">
+                    <h2>🏠 Mark Absence</h2>
+                    <p>Report your unavailability using natural language or form</p>
+                </div>
+
+                <!-- NLP Absence Input -->
+                <div class="nlp-input-panel">
+                    <h3>🧠 Natural Language Input (96% Accuracy)</h3>
+                    <div class="nlp-input-area">
+                        <textarea id="nlpAbsenceInput" placeholder="Type naturally, e.g., 'I can't attend Machine Learning class at 10AM Monday' or 'I'll be unavailable for Deep Learning on Tuesday afternoon'"></textarea>
+                        <button class="btn-primary" onclick="processNLPAbsence()">🧠 Process with AI</button>
+                    </div>
+                    <div class="nlp-result" id="nlpResult" style="display: none;">
+                        <h4>AI Understanding:</h4>
+                        <div class="understanding-display"></div>
+                    </div>
+                </div>
+
+                <!-- Traditional Form -->
+                <div class="form-input-panel">
+                    <h3>📝 Traditional Form</h3>
+                    <form id="absenceForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select id="absenceSubject">
+                                    <option value="">Select Subject</option>
+                                    <option value="Machine Learning">Machine Learning</option>
+                                    <option value="Deep Learning">Deep Learning</option>
+                                    <option value="Computer Vision">Computer Vision</option>
+                                    <option value="NLP">Natural Language Processing</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Day</label>
+                                <select id="absenceDay">
+                                    <option value="">Select Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Time Slot</label>
+                                <select id="absenceTime">
+                                    <option value="">Select Time</option>
+                                    <option value="09:00-10:00">09:00-10:00</option>
+                                    <option value="10:00-11:00">10:00-11:00</option>
+                                    <option value="11:00-12:00">11:00-12:00</option>
+                                    <option value="14:00-15:00">14:00-15:00</option>
+                                    <option value="15:00-16:00">15:00-16:00</option>
+                                    <option value="16:00-17:00">16:00-17:00</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <textarea id="absenceReason" placeholder="Brief reason for absence"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Submit Absence Request</button>
+                    </form>
+                </div>
+
+                <!-- Suggested Substitutes -->
+                <div class="substitutes-panel" id="substitutesPanel" style="display: none;">
+                    <h3>🔍 AI Suggested Substitutes</h3>
+                    <div class="substitute-list" id="substituteList">
+                        <!-- AI will populate substitute suggestions here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBSTITUTE REQUESTS VIEW -->
+        <div id="substitute-requests-view" class="content-view">
+            <div class="requests-container">
+                <div class="requests-header">
+                    <h2>🔄 Substitute Requests</h2>
+                    <p>Manage your substitute teaching requests</p>
+                </div>
+
+                <div class="requests-grid">
+                    <div class="request-card pending">
+                        <div class="request-header">
+                            <h4>Machine Learning Lab</h4>
+                            <div class="request-status pending">Pending</div>
+                        </div>
+                        <div class="request-details">
+                            <div class="request-info">
+                                <span class="request-label">For:</span>
+                                <span>Prof. Rajesh Mehta</span>
+                            </div>
+                            <div class="request-info">
+                                <span class="request-label">Time:</span>
+                                <span>Monday, 10:00-11:00 AM</span>
+                            </div>
+                            <div class="request-info">
+                                <span class="request-label">Class:</span>
+                                <span>AI-2nd Year-A (40 students)</span>
+                            </div>
+                            <div class="request-info">
+                                <span class="request-label">Room:</span>
+                                <span>LAB01</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn-success">✅ Accept</button>
+                            <button class="btn-danger">❌ Decline</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card approved">
+                        <div class="request-header">
+                            <h4>Deep Learning Theory</h4>
+                            <div class="request-status approved">Approved</div>
+                        </div>
+                        <div class="request-details">
+                            <div class="request-info">
+                                <span class="request-label">For:</span>
+                                <span>Dr. Neha Gupta</span>
+                            </div>
+                            <div class="request-info">
+                                <span class="request-label">Time:</span>
+                                <span>Wednesday, 14:00-15:00 PM</span>
+                            </div>
+                            <div class="request-info">
+                                <span class="request-label">Class:</span>
+                                <span>AI-3rd Year-B (33 students)</span>
+                            </div>
+                            <div class="request-info">
+                                <span class="request-label">Room:</span>
+                                <span>CR02</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn-info">📋 View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MY CLASSES VIEW -->
+        <div id="my-classes-view" class="content-view">
+            <div class="classes-container">
+                <div class="classes-header">
+                    <h2>🎓 My Classes</h2>
+                    <p>Manage your assigned classes and students</p>
+                </div>
+
+                <div class="classes-grid">
+                    <div class="class-card">
+                        <div class="class-header">
+                            <h4>AI-2nd Year-A</h4>
+                            <div class="student-count">40 Students</div>
+                        </div>
+                        <div class="class-subjects">
+                            <div class="subject-tag">Machine Learning</div>
+                            <div class="subject-tag">Computer Vision</div>
+                        </div>
+                        <div class="class-schedule">
+                            <div class="schedule-item">
+                                <span>Mon 09:00-10:00</span>
+                                <span>LAB01</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span>Wed 11:00-12:00</span>
+                                <span>LAB01</span>
+                            </div>
+                        </div>
+                        <div class="class-actions">
+                            <button class="btn-primary">👥 View Students</button>
+                            <button class="btn-info">📊 Attendance</button>
+                        </div>
+                    </div>
+
+                    <div class="class-card">
+                        <div class="class-header">
+                            <h4>AI-3rd Year-A</h4>
+                            <div class="student-count">35 Students</div>
+                        </div>
+                        <div class="class-subjects">
+                            <div class="subject-tag">Deep Learning</div>
+                            <div class="subject-tag">NLP</div>
+                        </div>
+                        <div class="class-schedule">
+                            <div class="schedule-item">
+                                <span>Tue 14:00-15:00</span>
+                                <span>LAB02</span>
+                            </div>
+                            <div class="schedule-item">
+                                <span>Thu 10:00-11:00</span>
+                                <span>CR02</span>
+                            </div>
+                        </div>
+                        <div class="class-actions">
+                            <button class="btn-primary">👥 View Students</button>
+                            <button class="btn-info">📊 Attendance</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS VIEW -->
+        <div id="notifications-view" class="content-view">
+            <div class="notifications-container">
+                <div class="notifications-header">
+                    <h2>📲 My Notifications</h2>
+                    <p>Recent updates and messages</p>
+                </div>
+
+                <div class="notification-list-full">
+                    <div class="notification-item new">
+                        <div class="notification-icon">🔄</div>
+                        <div class="notification-content">
+                            <h4>Substitute Request Approved</h4>
+                            <p>Your request to substitute Deep Learning class has been approved</p>
+                            <small>5 minutes ago</small>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-sm-success">✅ Mark Read</button>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon">📅</div>
+                        <div class="notification-content">
+                            <h4>Schedule Update</h4>
+                            <p>Machine Learning lab moved from LAB01 to LAB02 for tomorrow</p>
+                            <small>2 hours ago</small>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon">👥</div>
+                        <div class="notification-content">
+                            <h4>New Student Enrolled</h4>
+                            <p>Student added to AI-2nd Year-A class (Total: 41 students)</p>
+                            <small>1 day ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANALYTICS VIEW -->
+        <div id="analytics-view" class="content-view">
+            <div class="analytics-container">
+                <div class="analytics-header">
+                    <h2>📊 My Teaching Analytics</h2>
+                    <p>Insights into your teaching performance and workload</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>📈 Weekly Workload</h3>
+                        <div class="workload-chart">
+                            <div class="workload-bar">
+                                <div class="bar-fill" style="height: 85%;"></div>
+                                <label>Mon</label>
+                            </div>
+                            <div class="workload-bar">
+                                <div class="bar-fill" style="height: 60%;"></div>
+                                <label>Tue</label>
+                            </div>
+                            <div class="workload-bar">
+                                <div class="bar-fill" style="height: 90%;"></div>
+                                <label>Wed</label>
+                            </div>
+                            <div class="workload-bar">
+                                <div class="bar-fill" style="height: 70%;"></div>
+                                <label>Thu</label>
+                            </div>
+                            <div class="workload-bar">
+                                <div class="bar-fill" style="height: 80%;"></div>
+                                <label>Fri</label>
+                            </div>
+                            <div class="workload-bar">
+                                <div class="bar-fill" style="height: 45%;"></div>
+                                <label>Sat</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>🎯 Subject Distribution</h3>
+                        <div class="subject-distribution">
+                            <div class="subject-item">
+                                <span class="subject-name">Machine Learning</span>
+                                <div class="subject-progress">
+                                    <div class="progress-fill" style="width: 45%;"></div>
+                                </div>
+                                <span class="subject-percentage">45%</span>
+                            </div>
+                            <div class="subject-item">
+                                <span class="subject-name">Deep Learning</span>
+                                <div class="subject-progress">
+                                    <div class="progress-fill" style="width: 30%;"></div>
+                                </div>
+                                <span class="subject-percentage">30%</span>
+                            </div>
+                            <div class="subject-item">
+                                <span class="subject-name">Computer Vision</span>
+                                <div class="subject-progress">
+                                    <div class="progress-fill" style="width: 25%;"></div>
+                                </div>
+                                <span class="subject-percentage">25%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>⭐ Performance Metrics</h3>
+                        <div class="metrics-list">
+                            <div class="metric-item">
+                                <div class="metric-icon">📚</div>
+                                <div class="metric-details">
+                                    <h4>Class Completion Rate</h4>
+                                    <div class="metric-value">98.5%</div>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-icon">👥</div>
+                                <div class="metric-details">
+                                    <h4>Average Attendance</h4>
+                                    <div class="metric-value">92.3%</div>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-icon">⏱️</div>
+                                <div class="metric-details">
+                                    <h4>Punctuality Score</h4>
+                                    <div class="metric-value">96.7%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3>💡 AI Recommendations</h3>
+                        <div class="recommendations-list">
+                            <div class="recommendation-item">
+                                <div class="recommendation-icon">📈</div>
+                                <div class="recommendation-text">
+                                    <strong>Workload Balance:</strong> Consider distributing Tuesday load more evenly
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-icon">🎯</div>
+                                <div class="recommendation-text">
+                                    <strong>Subject Focus:</strong> Machine Learning classes show highest engagement
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="recommendation-icon">⏰</div>
+                                <div class="recommendation-text">
+                                    <strong>Optimal Timing:</strong> Morning slots (9-11 AM) work best for your schedule
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Faculty Dashboard JavaScript Functions
+
+function processNLPAbsence() {
+    const input = document.getElementById('nlpAbsenceInput').value;
+    const result = document.getElementById('nlpResult');
+    
+    if (!input.trim()) {
+        alert('Please enter your absence details');
+        return;
+    }
+    
+    // Show processing
+    result.style.display = 'block';
+    result.querySelector('.understanding-display').innerHTML = '<div class="processing">🧠 Processing with AI...</div>';
+    
+    // Simulate NLP processing
+    setTimeout(function() {
+        const understanding = {
+            subject: extractSubject(input),
+            day: extractDay(input),
+            time: extractTime(input),
+            confidence: '96%'
+        };
+        
+        result.querySelector('.understanding-display').innerHTML = `
+            <div class="understanding-item">
+                <strong>Subject:</strong> ${understanding.subject || 'Not specified'}
+            </div>
+            <div class="understanding-item">
+                <strong>Day:</strong> ${understanding.day || 'Not specified'}
+            </div>
+            <div class="understanding-item">
+                <strong>Time:</strong> ${understanding.time || 'Not specified'}
+            </div>
+            <div class="understanding-item confidence">
+                <strong>AI Confidence:</strong> ${understanding.confidence}
+            </div>
+        `;
+        
+        // Show substitute suggestions
+        showSubstituteSuggestions(understanding);
+    }, 1500);
+}
+
+function extractSubject(text) {
+    const subjects = ['machine learning', 'deep learning', 'computer vision', 'nlp', 'natural language processing'];
+    for (let subject of subjects) {
+        if (text.toLowerCase().includes(subject)) {
+            return subject.split(' ').map(function(word) {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+        }
+    }
+    return null;
+}
+
+function extractDay(text) {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    for (let day of days) {
+        if (text.toLowerCase().includes(day)) {
+            return day.charAt(0).toUpperCase() + day.slice(1);
+        }
+    }
+    return null;
+}
+
+function extractTime(text) {
+    const timePattern = /(\d{1,2}(?::\d{2})?\s*(?:AM|PM|am|pm))/i;
+    const match = text.match(timePattern);
+    return match ? match[1] : null;
+}
+
+function showSubstituteSuggestions(understanding) {
+    const panel = document.getElementById('substitutesPanel');
+    const list = document.getElementById('substituteList');
+    
+    const substitutes = [
+        { name: 'Dr. Priya Sharma', expertise: '95%', availability: 'Available', dept: 'AI' },
+        { name: 'Prof. Amit Kumar', expertise: '88%', availability: 'Available', dept: 'CSE' },
+        { name: 'Dr. Neha Gupta', expertise: '92%', availability: 'Busy until 11 AM', dept: 'AI' }
+    ];
+    
+    list.innerHTML = substitutes.map(function(sub) { return `
+        <div class="substitute-card">
+            <div class="substitute-info">
+                <h4>${sub.name}</h4>
+                <div class="substitute-details">
+                    <span class="expertise">Expertise Match: ${sub.expertise}</span>
+                    <span class="availability">Status: ${sub.availability}</span>
+                    <span class="department">Department: ${sub.dept}</span>
+                </div>
+            </div>
+            <button class="btn-request" onclick="requestSubstitute('${sub.name}')">
+                Request Substitute
+            </button>
+        </div>
+    `; }).join('');
+    
+    panel.style.display = 'block';
+}
+
+function requestSubstitute(name) {
+    alert(`Substitute request sent to ${name}. You will be notified once they respond.`);
+}
+
+function downloadSchedule() {
+    alert('Your schedule is being prepared for download...');
+}
+
+// Navigation handling
+document.addEventListener('DOMContentLoaded', function() {
+    const navItems = document.querySelectorAll('.nav-item');
+    const contentViews = document.querySelectorAll('.content-view');
+    
+    navItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Update active nav
+            navItems.forEach(function(nav) { nav.classList.remove('active'); });
+            this.classList.add('active');
+            
+            // Show corresponding view
+            const targetView = this.getAttribute('href').substring(1) + '-view';
+            contentViews.forEach(function(view) { view.classList.remove('active'); });
+            const target = document.getElementById(targetView);
+            if (target) {
+                target.classList.add('active');
+                updatePageTitle(targetView);
+            }
+        });
+    });
+    
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = 'login.html';
+        }
+    });
+});
+
+function updatePageTitle(viewId) {
+    const titles = {
+        'my-schedule-view': { title: 'My Schedule', desc: 'View and manage your teaching schedule' },
+        'absence-mgmt-view': { title: 'Mark Absence', desc: 'Report unavailability using NLP or form' },
+        'substitute-requests-view': { title: 'Substitute Requests', desc: 'Manage substitute teaching requests' },
+        'my-classes-view': { title: 'My Classes', desc: 'Manage your assigned classes and students' },
+        'notifications-view': { title: 'My Notifications', desc: 'Recent updates and messages' },
+        'analytics-view': { title: 'My Analytics', desc: 'Teaching performance and workload insights' }
+    };
+    
+    const info = titles[viewId];
+    if (info) {
+        document.getElementById('currentPageTitle').textContent = info.title;
+        document.getElementById('currentPageDesc').textContent = info.desc;
+    }
+}
+</script>
+</body>
+</html>
