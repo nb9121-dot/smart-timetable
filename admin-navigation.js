@@ -1,5 +1,3 @@
-// Admin Dashboard Navigation & CSV Upload Handling
-
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Admin navigation initialized');
 
@@ -34,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // CSV Upload Handling
+    // CSV upload handling
     const fileInputs = document.querySelectorAll('input[type="file"]');
     fileInputs.forEach(function(input) {
         input.addEventListener('change', function(e) {
@@ -44,20 +42,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const reader = new FileReader();
             reader.onload = function(event) {
                 const text = event.target.result;
-                console.log(`Read file: ${file.name}`);
+                console.log(`Loaded file: ${file.name}`);
                 console.log(text);
+                // TODO: Parse CSV (e.g., with PapaParse) and process data here.
 
-                // TODO: Add CSV parsing and data validation here.
-                // Example: Use PapaParse or custom parsing logic.
-
-                // Sample:Notify user of successful read
                 alert(`File "${file.name}" loaded successfully.`);
             };
             reader.onerror = function() {
                 alert(`Failed to read file "${file.name}".`);
-            }
+            };
             reader.readAsText(file);
         });
     });
-
 });
+
